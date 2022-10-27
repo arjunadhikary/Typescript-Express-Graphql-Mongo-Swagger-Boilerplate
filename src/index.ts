@@ -29,7 +29,8 @@ interface QueryParams {
 //It doesn't scale for large datasets. As it scans the record one by one and skip or offset it, If your database has a million records, it will effect scalability
 app.get('/getUsers', async (req: Request<{}, {}, {}, QueryParams>, res) => {
   try {
-    const { limit, page } = req.query;
+    let page = req.query.page !== undefined ? req.query.page : 1;
+    let limit = req.query.limit !== undefined ? req.query.limit : 10;
     console.log(page, limit);
 
     const posts = await UserModel.find()
