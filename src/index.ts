@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { root, schema } from './graphql/users';
 import { UserModel } from './schema/Users';
@@ -21,6 +21,35 @@ app.get('/', (req, res) => {
   res.send('Hello world!');
 });
 
+interface QueryParams {
+  page: string;
+  limit: string;
+}
+//@TODO mongoose-paginate-v2 can also be used
+//It doesn't scale for large datasets. As it scans the record one by one and skip or offset it, If your database has a million records, it will effect scalability
+app.get('/getUsers', async (req: Request<{}, {}, {}, QueryParams>, res) => {
+  try {
+    const { limit, page } = req.query;
+    console.log(page, limit);
+
+    const posts = await UserModel.find()
+      .limit(+limit * 1)
+      .skip((+page - 1) * +limit)
+      .exec();
+
+    const count = await UserModel.count();
+
+    res.json({
+      posts,
+      totalPages: Math.ceil(count / +limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    res.status(500).send({
+      error: error instanceof Error ? error.message : 'Error',
+    });
+  }
+});
 app.post('/createUser', async (req, res) => {
   try {
     const body = req.body;
