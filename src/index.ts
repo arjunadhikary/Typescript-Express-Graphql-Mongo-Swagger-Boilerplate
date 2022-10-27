@@ -1,10 +1,11 @@
 import express from 'express';
-import { buildSchema } from 'graphql';
 import { graphqlHTTP } from 'express-graphql';
-import { users } from './utils/constants';
 import { root, schema } from './graphql/users';
+import { UserModel } from './schema/Users';
+import './connections/mongodb';
 const app = express();
 const port = 8080; // default port to listen
+app.use(express.json());
 
 app.use(
   '/graphql',
@@ -18,6 +19,27 @@ app.use(
 // define a route handler for the default home page
 app.get('/', (req, res) => {
   res.send('Hello world!');
+});
+
+app.post('/createUser', async (req, res) => {
+  try {
+    const body = req.body;
+    console.log(body);
+
+    const user = new UserModel({ ...body });
+    const resData = await user.save();
+    res.status(200).send({
+      msg: 'User Created',
+      data: resData,
+    });
+  } catch (error: unknown) {
+    console.log(error);
+
+    res.status(500).send({
+      data: 'Error',
+      error: error instanceof Error ? error.message : 'Error',
+    });
+  }
 });
 
 // start the Express server
