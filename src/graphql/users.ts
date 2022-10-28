@@ -1,17 +1,25 @@
 import { buildSchema } from 'graphql';
-import { users } from '../utils/constants';
+import { IUser, UserModel } from '../schema/Users';
 
 export const schema = buildSchema(`
-    input UserInput {
-        email: String!
-        name: String!
-
+     input  UserInput {
+        name: String
+        email: String
+        phone: String
+        address: String
+        dob: String
+        education: String
+        modeofcontact: String
     }
-
+    scalar Date
     type User {
-        id: Int!
-        name: String!
-        email: String!
+        name: String
+        email: String
+        phone: String
+        address: String
+        dob: String
+        education: String
+        modeofcontact: String
     }
 
     type Mutation {
@@ -25,38 +33,20 @@ export const schema = buildSchema(`
     }
 `);
 
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
+const getUser = async (args: { id: number }): Promise<IUser | undefined> =>
+  await UserModel.findById(args.id);
 
-type UserInput = Pick<User, 'email' | 'name'>;
+const getUsers = async (): Promise<IUser[]> =>
+  (await UserModel.find()) as IUser[];
 
-const getUser = (args: { id: number }): User | undefined =>
-  users.find((u) => u.id === args.id);
-
-const getUsers = (): User[] => users;
-
-const createUser = (args: { input: UserInput }): User => {
-  const user = {
-    id: users.length + 1,
-    ...args.input,
-  };
-  users.push(user);
-  return user;
-};
-
-const updateUser = (args: { user: User }): User => {
-  const index = users.findIndex((u) => u.id === args.user.id);
-  const targetUser = users[index];
-  if (targetUser) users[index] = args.user;
-  return targetUser;
+const createUser = async (args: { input: IUser }): Promise<IUser> => {
+  const user = new UserModel({ ...args.input });
+  const returnedUser = await user.save();
+  return returnedUser;
 };
 
 export const root = {
   getUser,
   getUsers,
   createUser,
-  updateUser,
 };

@@ -4,10 +4,11 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "prebuild": "tsconfig.json --fix",
-    "build": "tsc",
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "prestart": "npm run build",
     "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
     "start": "node ."
   },
   "keywords": [],

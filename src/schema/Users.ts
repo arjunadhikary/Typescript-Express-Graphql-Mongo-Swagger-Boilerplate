@@ -2,25 +2,12 @@ import { model, Schema } from 'mongoose';
 import { isDate } from 'util/types';
 import isEmail from 'validator/lib/isEmail';
 
-// 1. Create an interface representing a document in MongoDB.
-/**
-Name
-Gender
-Phone
-Email
-Address
-Nationality
-Date of birth
-Education background
-Preferred mode of contact(select one from email, phone, none)
- */
-
 enum MODE_OF_CONTACT {
   'EMAIL',
   'PHONE',
   'NONE',
 }
-interface IUser {
+export interface IUser {
   name: string;
   email: string;
   phone: string;

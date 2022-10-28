@@ -1,4 +1,4 @@
-# This is a started demo templated for api creation
+# This is a  template for api creation using Typescript
 
 ## It uses
 

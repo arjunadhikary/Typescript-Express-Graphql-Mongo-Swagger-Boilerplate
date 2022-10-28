@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
-    "jsx": "preserve",
-    "strict": true,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "outDir": "dist",
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "lib": ["es2018", "esnext.asynciterable"]
   },
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

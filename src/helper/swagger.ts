@@ -1,3 +1,4 @@
+import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
 
 const swaggerDefinition = {
@@ -9,17 +10,15 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://localhost:3000',
+      url: 'http://localhost:8080',
       description: 'Development server',
     },
   ],
 };
 
-console.log(__dirname);
-
 const options = {
   swaggerDefinition,
-  apis: [`${__dirname}/../routes/*.ts`],
+  apis: [`${__dirname}/../routes/*`],
 };
 
 export const swaggerSpec = swaggerJSDoc(options);

@@ -1,6 +1,4 @@
 import { connect } from 'mongoose';
-import { UserModel } from '../schema/Users';
-// 2. Create a Schema corresponding to the document interface.
 
 import * as dotenv from 'dotenv';
 dotenv.config();
