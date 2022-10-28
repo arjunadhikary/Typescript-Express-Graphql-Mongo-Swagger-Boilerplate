@@ -5,7 +5,7 @@
     "jsx": "preserve",
     "strict": true,
     "esModuleInterop": true,
-    "lib": ["es2018", "esnext.asynciterable"]
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules"]
 }

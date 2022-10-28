@@ -6,5 +6,4 @@
 * Typescript
 * monngoDB
 * mongoose as ORM
-* Graphql
-
+* Swagger

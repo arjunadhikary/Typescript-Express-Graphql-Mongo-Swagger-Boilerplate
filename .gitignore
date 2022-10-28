@@ -1,2 +1,4 @@
 node_modules
 tslint.json
+package-lock.json
+dist
